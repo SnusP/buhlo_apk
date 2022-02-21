@@ -98,7 +98,9 @@ class Application(App):
     def choice1(self,obj):
         if not self.inp.text.isdigit()or not self.inp1.text.isdigit() or not self.inp2.text.isdigit():
             return self.bruh()
-        global case,vodochkaL,romL,viskarL
+        global case,vodochkaL,romL,viskarL,budget,money
+        money -= float(self.inp1.text)*float(self.inp2.text)
+        print(money)
         if case == 1:
             vodochkaL += float(self.inp.text)*float(self.inp2.text)
         elif case == 2:
