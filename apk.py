@@ -5,9 +5,21 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.image import AsyncImage
 from kivy.uix.textinput import TextInput
 
-vodochkaL, viskarL, romL, budget, per,money = 0,0,0,0,0,0
+
+def is_digit(string):
+    if string.isdigit():
+        return True
+    else:
+        try:
+            float(string)
+            return True
+        except ValueError:
+            return False
+vodochkaL, viskarL, romL, budget, per,money,howrerun = 0,0,0,0,0,0,0
 tipbuhla = ''
+aimg = AsyncImage(source='https://i.ytimg.com/vi/xw6e4v8k4eU/maxresdefault.jpg')
 class Application(App):
+
     def persons(self,instance):
         self.label.text = "Что ж, давайте начнем\nвведите количество персон"
         self.grid.remove_widget(self.but)
@@ -25,6 +37,8 @@ class Application(App):
         self.grid.add_widget(self.but)
         return self.grid
     def money(self,obj):
+        if not self.inp.text.isdigit():
+            return self.bruh()
         global per
         per = float(self.inp.text)
         self.grid.remove_widget(self.subm)
@@ -32,6 +46,8 @@ class Application(App):
         self.subm = Button(text="submit", on_press=self.choice)
         self.grid.add_widget(self.subm)
     def choice(self,obj):
+        if not self.inp.text.isdigit():
+            return self.bruh()
         global budget,money
         budget = float(self.inp.text)
         money = float(self.inp.text)
@@ -50,7 +66,7 @@ class Application(App):
     def vodochka1(self,obj):
         global case
         case = 1
-        self.label.text = "Выбираем водочку!"
+        self.label.text = f"Выбираем водочку!\nУ вас остается еще {money}"
         self.grid.remove_widget(self.vodochka)
         self.grid.remove_widget(self.whisky)
         self.grid.remove_widget(self.rom)
@@ -66,7 +82,7 @@ class Application(App):
     def viskarik(self,obj):
         global case
         case = 2
-        self.label.text = "Выбираем вискарик!"
+        self.label.text = f"Выбираем вискарик!\nУ вас остается еще {money}"
         self.grid.remove_widget(self.vodochka)
         self.grid.remove_widget(self.whisky)
         self.grid.remove_widget(self.rom)
@@ -82,7 +98,7 @@ class Application(App):
     def rome(self,obj):
         global case
         case = 3
-        self.label.text = "Выбираем ром!"
+        self.label.text = f"Выбираем ром!\nУ вас остается еще {money}"
         self.grid.remove_widget(self.vodochka)
         self.grid.remove_widget(self.whisky)
         self.grid.remove_widget(self.rom)
@@ -96,7 +112,7 @@ class Application(App):
         self.grid.add_widget(self.inp2)
         self.grid.add_widget(self.subm)
     def choice1(self,obj):
-        if not self.inp.text.isdigit()or not self.inp1.text.isdigit() or not self.inp2.text.isdigit():
+        if not is_digit(self.inp.text) or not is_digit(self.inp1.text) or not self.inp2.text.isdigit():
             return self.bruh()
         global case,vodochkaL,romL,viskarL,budget,money
         money -= float(self.inp1.text)*float(self.inp2.text)
@@ -107,12 +123,12 @@ class Application(App):
             viskarL += float(self.inp.text)*float(self.inp2.text)
         elif case == 3:
             romL += float(self.inp.text)*float(self.inp2.text)
-        self.label.text = "Бутылку какого напитка вы берете?"
+        self.label.text = f"Бутылку какого напитка вы берете?\nУ вас остается еще {money}"
         self.grid.remove_widget(self.inp)
         self.grid.remove_widget(self.inp1)
         self.grid.remove_widget(self.inp2)
         self.grid.remove_widget(self.subm)
-        self.vodochka = Button(text="Водочка!", font_size=30, background_color="cyan", on_press=self.vodochka1)
+        self.vodochka = Button(text=f"Водочка!", font_size=30, background_color="cyan", on_press=self.vodochka1)
         self.whisky = Button(text="Вискарик!", font_size=30, background_color="cyan", on_press=self.viskarik)
         self.rom = Button(text="Ром!", font_size=30, background_color="cyan", on_press=self.rome)
         self.nothing = Button(text="Больше ничего не нужно, спасибо!", font_size=30, background_color="cyan", on_press=self.nothing1)
@@ -122,23 +138,44 @@ class Application(App):
         self.grid.add_widget(self.rom)
         self.grid.add_widget(self.nothing)
     def nothing1(self,obj):
-        self.label.text = "Выберите дальнейшее действие"
+        global howrerun
+        howrerun = 1
+        self.label.text = f"Выберите дальнейшее действие\nУ вас остается еще {money}"
         self.grid.remove_widget(self.vodochka)
         self.grid.remove_widget(self.whisky)
         self.grid.remove_widget(self.rom)
         self.grid.remove_widget(self.nothing)
         self.results = Button(text="Показать результаты", font_size=30, background_color="cyan", on_press=self.results1)
         self.add = Button(text="Добавить товары", font_size=30, background_color="cyan", on_press=self.add1)
+
         self.rerun = Button(text="Запустить программу заново", font_size=30, background_color="cyan", on_press=self.rerun1)
         self.grid.add_widget(self.results)
         self.grid.add_widget(self.add)
         self.grid.add_widget(self.rerun)
     def rerun1(self,obj):
+        global howrerun
+        if howrerun == 1:
+            self.grid.remove_widget(self.results)
+            self.grid.remove_widget(self.add)
+            self.grid.remove_widget(self.rerun)
+            global vodochkaL, viskarL, romL, budget, per, money
+            vodochkaL, viskarL, romL, budget, per, money,howrerun = 0,0,0,0,0,0,0
+            self.label.text = "В этот раз будьте внимательнее, все получится!\nвведите количество персон?"
+            self.grid.remove_widget(self.but)
+            self.inp = TextInput()
+            self.subm = Button(text="submit", on_press=self.money)
+            self.grid.add_widget(self.inp)
+            self.grid.add_widget(self.subm)
+        else:
+            return self.rerun2(1)
+    def rerun2(self,obj):
+        global aimg
+        self.grid.remove_widget(aimg)
         self.grid.remove_widget(self.results)
         self.grid.remove_widget(self.add)
         self.grid.remove_widget(self.rerun)
-        global vodochkaL, viskarL, romL, budget, per, money
-        vodochkaL, viskarL, romL, budget, per, money = 0,0,0,0,0,0
+        global vodochkaL, viskarL, romL, budget, per, money, howrerun
+        vodochkaL, viskarL, romL, budget, per, money, howrerun = 0, 0, 0, 0, 0, 0, 0
         self.label.text = "В этот раз будьте внимательнее, все получится!\nвведите количество персон?"
         self.grid.remove_widget(self.but)
         self.inp = TextInput()
@@ -149,7 +186,7 @@ class Application(App):
         self.grid.remove_widget(self.results)
         self.grid.remove_widget(self.add)
         self.grid.remove_widget(self.rerun)
-        self.label.text = "Бутылку какого напитка вы берете?"
+        self.label.text = f"Бутылку какого напитка вы берете\nУ вас остается еще {money}?"
         self.vodochka = Button(text="Водочка!", font_size=30, background_color="cyan", on_press=self.vodochka1)
         self.whisky = Button(text="Вискарик!", font_size=30, background_color="cyan", on_press=self.viskarik)
         self.rom = Button(text="Ром!", font_size=30, background_color="cyan", on_press=self.rome)
@@ -160,21 +197,45 @@ class Application(App):
         self.grid.add_widget(self.rom)
         self.grid.add_widget(self.nothing)
     def bruh(self):
-        self.label.text = "Ты пидор!\nвведи нормальные данные!"
+        if self.label.text == "Что ж, давайте начнем\nвведите количество персон":
+            self.label.text = "Данные неверны!\nПожалуйста, введите количество персон еще раз"
+        elif self.label.text =="Хорошо, а каков бюджет?":
+            self.label.text = "Данные неверны!\nПожалуйста, введите бюджет еще раз"
+        else:
+            self.label.text = f"Данные неверны!\nПожалуйста, перепроверьте вводимые данные\nУ вас остается еще {money}"
     def results1(self,obj):
         self.grid.remove_widget(self.results)
         self.grid.remove_widget(self.add)
         self.grid.remove_widget(self.rerun)
+        global howrerun,aimg
+        howrerun = 2
         str1 = str(money)
         str2 = str(vodochkaL)
         str3 = str(viskarL)
         str4 = str(romL)
         str5 = str((vodochkaL+viskarL+romL)/per)
-        self.label.text = "Что ж, у вас осталось "+str1+" рублей\nВы купили\n"+str2+" литров водочки\n"+str3+" литров вискарика\n"+str4+" литров рома\n"+\
-                          "по моим расчетам у вас "+str5+" литров на человека"
-
-        aimg = AsyncImage(source='https://i.ytimg.com/vi/xw6e4v8k4eU/maxresdefault.jpg')
+        if vodochkaL == 0:
+            if money > 0:
+                self.label.text = "Что ж, у вас осталось " + str1 + " рублей\nВы купили\n" + str2 + " литров водочки\n" + str3 + " литров вискарика\n" + str4 + " литров рома\n А как без водочки?:(\n" + \
+                                  "по моим расчетам у вас " + str5 + " литров на человека"
+            elif money == 0:
+                "Что ж, вы уложились ровно в бюджет\nВы купили\n" + str2 + " литров водочки\n" + str3 + " литров вискарика\n" + str4 + " литров рома\n А как без водочки?:(\n" + \
+                "по моим расчетам у вас " + str5 + " литров на человека"
+            else:
+                "Кажется, вы погорячились, на такой закуп не хватает " + str1.lstrip() + " рублей\nВы купили\n" + str2 + " литров водочки\n" + str3 + " литров вискарика\n" + str4 + " литров рома\n А как без водочки?:(\n" + \
+                "по моим расчетам у вас " + str5 + " литров на человека"
+        else:
+            if money > 0:
+                self.label.text = "Что ж, у вас осталось " + str1 + " рублей\nВы купили\n" + str2 + " литров водочки\n" + str3 + " литров вискарика\n" + str4 + " литров рома\n Водочки маловато будет\n" + \
+                                  "по моим расчетам у вас " + str5 + " литров на человека"
+            elif money == 0:
+                "Что ж, вы уложились ровно в бюджет\nВы купили\n" + str2 + " литров водочки\n" + str3 + " литров вискарика\n" + str4 + " литров рома\n Водочки маловато будет\n" + \
+                "по моим расчетам у вас " + str5 + " литров на человека"
+            else:
+                "Кажется, вы погорячились, на такой закуп не хватает " + str1.lstrip() + " рублей\nВы купили\n" + str2 + " литров водочки\n" + str3 + " литров вискарика\n" + str4 + " литров рома\n Водочки маловато будет\n" + \
+                "по моим расчетам у вас " + str5 + " литров на человека"
         self.grid.add_widget(aimg)
+        self.grid.add_widget(self.rerun)
 
 if __name__ == "__main__":
     Application().run()
