@@ -4,7 +4,7 @@ from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.image import AsyncImage
 from kivy.uix.textinput import TextInput
-
+from kivy.core.window import Window
 
 def is_digit(string):
     if string.isdigit():
@@ -24,13 +24,14 @@ class Application(App):
         self.label.text = "Что ж, давайте начнем\nвведите количество персон"
         self.grid.remove_widget(self.but)
         self.inp = TextInput()
-        self.subm = Button(text = "submit",on_press = self.money)
+        self.subm = Button(text = "submit",on_press = self.money,background_color = (255, 207, 0,200/255))
         self.grid.add_widget(self.inp)
         self.grid.add_widget(self.subm)
 
     def build(self):
-        self.grid = GridLayout(cols = 1,spacing = 10)
-        self.but = Button(text = "Начать!",font_size = 30, background_color = "cyan",on_press = self.persons)
+        Window.clearcolor = (16/255, 71/255,140/255, 0);
+        self.grid = GridLayout(cols = 1,padding = [30],spacing = 10)
+        self.but = Button(text = "Начать!",font_size = 30, background_color = (255, 207, 0,200/255),on_press = self.persons)
         self.label = Label(text = "Добро пожаловать в мастерскую настроения!\nГотовы сделать выбор?",font_size = 30)
 
         self.grid.add_widget(self.label)
@@ -43,7 +44,7 @@ class Application(App):
         per = float(self.inp.text)
         self.grid.remove_widget(self.subm)
         self.label.text = "Хорошо, а каков бюджет?"
-        self.subm = Button(text="submit", on_press=self.choice)
+        self.subm = Button(text="submit", on_press=self.choice,background_color = (255, 207, 0,200/255))
         self.grid.add_widget(self.subm)
     def choice(self,obj):
         if not self.inp.text.isdigit():
@@ -54,10 +55,10 @@ class Application(App):
         self.label.text = "Бутылку какого напитка вы берете?"
         self.grid.remove_widget(self.inp)
         self.grid.remove_widget(self.subm)
-        self.vodochka = Button(text = "Водочка!",font_size = 30, background_color = "cyan",on_press = self.vodochka1)
-        self.whisky = Button(text="Вискарик!", font_size=30, background_color="cyan", on_press=self.viskarik)
-        self.rom = Button(text="Ром!", font_size=30, background_color="cyan", on_press=self.rome)
-        self.nothing = Button(text="Больше ничего не нужно, спасибо!", font_size=30, background_color="cyan", on_press=self.nothing1)
+        self.vodochka = Button(text = "Водочка!",font_size = 30, background_color = (255, 207, 0,200/255),on_press = self.vodochka1)
+        self.whisky = Button(text="Вискарик!", font_size=30, background_color=(255, 207, 0,200/255), on_press=self.viskarik)
+        self.rom = Button(text="Ром!", font_size=30, background_color=(255, 207, 0,200/255), on_press=self.rome)
+        self.nothing = Button(text="Больше ничего не нужно, спасибо!", font_size=30, background_color=(255, 207, 0,200/255), on_press=self.nothing1)
 
         self.grid.add_widget(self.vodochka)
         self.grid.add_widget(self.whisky)
@@ -74,7 +75,7 @@ class Application(App):
         self.inp = TextInput(text = "Введите объем водочки")
         self.inp1 = TextInput(text="Введите цену водочки")
         self.inp2 = TextInput(text="Введите кол-во бутылок")
-        self.subm = Button(text="Выбрано!", font_size=30, background_color="cyan", on_press=self.choice1)
+        self.subm = Button(text="Выбрано!", font_size=30, background_color=(255, 207, 0,200/255), on_press=self.choice1)
         self.grid.add_widget(self.inp)
         self.grid.add_widget(self.inp1)
         self.grid.add_widget(self.inp2)
@@ -90,7 +91,7 @@ class Application(App):
         self.inp = TextInput(text = "Введите объем вискарика")
         self.inp1 = TextInput(text="Введите цену вискарика")
         self.inp2 = TextInput(text="Введите кол-во вискарика")
-        self.subm = Button(text="Выбрано!", font_size=30, background_color="cyan", on_press=self.choice1)
+        self.subm = Button(text="Выбрано!", font_size=30, background_color=(255, 207, 0,200/255), on_press=self.choice1)
         self.grid.add_widget(self.inp)
         self.grid.add_widget(self.inp1)
         self.grid.add_widget(self.inp2)
@@ -106,7 +107,7 @@ class Application(App):
         self.inp = TextInput(text = "Введите объем, Рома")
         self.inp1 = TextInput(text="Введите цену, Рома")
         self.inp2 = TextInput(text="Введите кол-во, Рома")
-        self.subm = Button(text="Выбрано!", font_size=30, background_color="cyan", on_press=self.choice1)
+        self.subm = Button(text="Выбрано!", font_size=30, background_color=(255, 207, 0,200/255), on_press=self.choice1)
         self.grid.add_widget(self.inp)
         self.grid.add_widget(self.inp1)
         self.grid.add_widget(self.inp2)
@@ -128,10 +129,10 @@ class Application(App):
         self.grid.remove_widget(self.inp1)
         self.grid.remove_widget(self.inp2)
         self.grid.remove_widget(self.subm)
-        self.vodochka = Button(text=f"Водочка!", font_size=30, background_color="cyan", on_press=self.vodochka1)
-        self.whisky = Button(text="Вискарик!", font_size=30, background_color="cyan", on_press=self.viskarik)
-        self.rom = Button(text="Ром!", font_size=30, background_color="cyan", on_press=self.rome)
-        self.nothing = Button(text="Больше ничего не нужно, спасибо!", font_size=30, background_color="cyan", on_press=self.nothing1)
+        self.vodochka = Button(text=f"Водочка!", font_size=30, background_color=(255, 207, 0,200/255), on_press=self.vodochka1)
+        self.whisky = Button(text="Вискарик!", font_size=30, background_color=(255, 207, 0,200/255), on_press=self.viskarik)
+        self.rom = Button(text="Ром!", font_size=30, background_color=(255, 207, 0,200/255), on_press=self.rome)
+        self.nothing = Button(text="Больше ничего не нужно, спасибо!", font_size=30, background_color=(255, 207, 0,200/255), on_press=self.nothing1)
 
         self.grid.add_widget(self.vodochka)
         self.grid.add_widget(self.whisky)
@@ -145,10 +146,10 @@ class Application(App):
         self.grid.remove_widget(self.whisky)
         self.grid.remove_widget(self.rom)
         self.grid.remove_widget(self.nothing)
-        self.results = Button(text="Показать результаты", font_size=30, background_color="cyan", on_press=self.results1)
-        self.add = Button(text="Добавить товары", font_size=30, background_color="cyan", on_press=self.add1)
+        self.results = Button(text="Показать результаты", font_size=30, background_color=(255, 207, 0,200/255), on_press=self.results1)
+        self.add = Button(text="Добавить товары", font_size=30, background_color=(255, 207, 0,200/255), on_press=self.add1)
 
-        self.rerun = Button(text="Запустить программу заново", font_size=30, background_color="cyan", on_press=self.rerun1)
+        self.rerun = Button(text="Запустить программу заново", font_size=30, background_color=(255, 207, 0,200/255), on_press=self.rerun1)
         self.grid.add_widget(self.results)
         self.grid.add_widget(self.add)
         self.grid.add_widget(self.rerun)
@@ -187,10 +188,10 @@ class Application(App):
         self.grid.remove_widget(self.add)
         self.grid.remove_widget(self.rerun)
         self.label.text = f"Бутылку какого напитка вы берете\nУ вас остается еще {money}?"
-        self.vodochka = Button(text="Водочка!", font_size=30, background_color="cyan", on_press=self.vodochka1)
-        self.whisky = Button(text="Вискарик!", font_size=30, background_color="cyan", on_press=self.viskarik)
-        self.rom = Button(text="Ром!", font_size=30, background_color="cyan", on_press=self.rome)
-        self.nothing = Button(text="Больше ничего не нужно, спасибо!", font_size=30, background_color="cyan",
+        self.vodochka = Button(text="Водочка!", font_size=30, background_color=(255, 207, 0,200/255), on_press=self.vodochka1)
+        self.whisky = Button(text="Вискарик!", font_size=30, background_color=(255, 207, 0,200/255), on_press=self.viskarik)
+        self.rom = Button(text="Ром!", font_size=30, background_color=(255, 207, 0,200/255), on_press=self.rome)
+        self.nothing = Button(text="Больше ничего не нужно, спасибо!", font_size=30, background_color=(255, 207, 0,200/255),
                               on_press=self.nothing1)
         self.grid.add_widget(self.vodochka)
         self.grid.add_widget(self.whisky)
